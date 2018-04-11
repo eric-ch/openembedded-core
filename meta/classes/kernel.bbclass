@@ -149,7 +149,7 @@ python do_symlink_kernsrc () {
         else:
             import shutil
             shutil.move(s, kernsrc)
-            os.symlink(kernsrc, s)
+            os.symlink(os.path.relpath(kernsrc, s)[3:], s)
 }
 addtask symlink_kernsrc before do_configure after do_unpack
 

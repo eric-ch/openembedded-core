@@ -621,7 +621,25 @@ class QuiltTree(PatchSet):
         if not self.initialized:
             self.InitFromDir()
         PatchSet.Import(self, patch, force)
-        oe.path.symlink(patch["file"], self._quiltpatchpath(patch["file"]), force=True)
+
+        topdir = self.d.getVar('TOPDIR')
+        target = os.path.join(topdir, patch["file"])
+        if os.path.islink(self.dir):
+            # Read the link, and apply it in its position (dirname of absolute
+            # path position).
+            fulllink = os.path.join(os.path.dirname(self.dir), os.readlink(self.dir))
+            # Then normalize everything for good measure to remove useless relative syntax...
+            normlink = os.path.normpath(fulllink)
+            # Finaly append where we want it to be.
+            link = os.path.join(normlink, "patches", os.path.basename(patch["file"]))
+        else:
+            link = self._quiltpatchpath(patch["file"])
+
+        relpath = os.path.relpath(target, os.path.dirname(link))
+
+        # Remove one '../' as relpath is called with the "file" basename at the
+        # end (see _quiltpatchpath).
+        oe.path.symlink(relpath, link, force=True)
         with open(os.path.join(self.dir, "patches", "series"), "a") as f:
             f.write(os.path.basename(patch["file"]) + " -p" + patch["strippath"] + "\n")
         patch["quiltfile"] = self._quiltpatchpath(patch["file"])
