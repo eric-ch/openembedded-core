@@ -71,7 +71,7 @@ def is_kernel_module_signed(path):
 # 16 - kernel module
 def is_elf(path):
     exec_type = 0
-    result = subprocess.check_output(["file", "-b", path], stderr=subprocess.STDOUT).decode("utf-8")
+    result = subprocess.check_output(["file", "-S", "-b", path], stderr=subprocess.STDOUT).decode("utf-8")
 
     if "ELF" in result:
         exec_type |= 1
