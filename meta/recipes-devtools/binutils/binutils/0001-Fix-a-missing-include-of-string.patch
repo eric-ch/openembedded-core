@@ -1,0 +1,35 @@
+From a3972330f49f81b3bea64af0970d22f42ae56ec3 Mon Sep 17 00:00:00 2001
+From: Martin Liska <mliska@suse.cz>
+Date: Fri, 7 Jun 2019 07:36:52 +0200
+Subject: [PATCH] Fix a missing include of <string>
+
+gold/ChangeLog:
+
+2019-06-07  Martin Liska  <mliska@suse.cz>
+
+	* errors.h: Include string.
+---
+ gold/ChangeLog | 4 ++++
+ gold/errors.h  | 1 +
+ 2 files changed, 5 insertions(+)
+
+--- a/gold/ChangeLog
++++ b/gold/ChangeLog
+@@ -1,3 +1,7 @@
++2019-06-10  Martin Liska  <mliska@suse.cz>
++
++	* errors.h: Include string.
++
+ 2019-02-02  Nick Clifton  <nickc@redhat.com>
+ 
+ 	2.32 Release.
+--- a/gold/errors.h
++++ b/gold/errors.h
+@@ -24,6 +24,7 @@
+ #define GOLD_ERRORS_H
+ 
+ #include <cstdarg>
++#include <string>
+ 
+ #include "gold-threads.h"
+ 
