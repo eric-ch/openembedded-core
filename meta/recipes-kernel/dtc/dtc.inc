@@ -16,6 +16,9 @@ inherit pkgconfig
 
 S = "${WORKDIR}/git"
 
+EXTRA_OEMAKE_class-native_append += 'EXTRA_CFLAGS="${BUILD_CFLAGS}"'
+EXTRA_OEMAKE_class-target_append += 'EXTRA_CFLAGS="${TARGET_CFLAGS}"'
+
 do_install () {
 	oe_runmake install
 }
